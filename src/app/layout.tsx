@@ -1,5 +1,7 @@
+import { poppins, roboto } from './fonts';
 import type { Metadata } from 'next';
 import './globals.css';
+import { ThemeProvider } from '@components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Ez Productivity App',
@@ -13,7 +15,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${roboto.className} ${poppins.className}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

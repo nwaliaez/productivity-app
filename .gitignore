@@ -1,36 +1,54 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
+# Node.js
 /node_modules
 /.pnp
 .pnp.js
+
+# Yarn
 .yarn/install-state.gz
 
-# testing
+# Testing
 /coverage
 
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Build output
 /build
 
-# misc
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# Local environment variables
+.env
 .env*.local
+.env*.production
+.env*.development
+.env*.test
 
-# vercel
+# Vercel
 .vercel
+/output
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prisma or Drizzle (if you generate migration files or schema files)
+drizzle.config.ts
+drizzle/migrations/*
+
+# MongoDB specific (if you're storing any local database config or scripts)
+/init-mongo.js  # Your custom init script for MongoDB (if exists)
+
+# Postgres
+/postgres-data   # Any local database storage for development
+pgdata/         # PostgreSQL data files (if stored locally)
+
+/docker-compose.override.yml # Custom overrides for local docker setups

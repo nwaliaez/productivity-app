@@ -15,7 +15,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import Link from 'next/link';
 
 // Define form schema using zod
 const formSchema = z.object({
@@ -89,6 +96,12 @@ const Auth = () => {
           </form>
         </Form>
       </CardContent>
+      <CardFooter className="text-center mt-4">
+        <div>Don&apos;t have an account?</div>
+        <Link href="/auth/signup" className="text-blue-500">
+          <div>Signup</div>
+        </Link>
+      </CardFooter>
     </Card>
   );
 };
