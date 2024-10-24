@@ -1,7 +1,8 @@
 import { poppins, roboto } from './fonts';
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@components/theme-provider';
+import { ThemeProvider } from '@context/theme-provider';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: 'Ez Productivity App',
@@ -23,6 +24,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

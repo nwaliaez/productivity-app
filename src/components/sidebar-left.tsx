@@ -6,12 +6,12 @@ import {
   Blocks,
   Calendar,
   Command,
-  Home,
-  LoaderPinwheel,
+  Users,
+  Tag,
   MessageCircleQuestion,
-  Search,
+  LayoutDashboard,
   Settings2,
-  CalendarCheck,
+  Sparkles,
   Trash2,
 } from 'lucide-react';
 
@@ -27,6 +27,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar';
 
+// This is sample data.
 const data = {
   teams: [
     {
@@ -47,27 +48,24 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Search',
-      url: '#',
-      icon: Search,
-    },
-
-    {
       title: 'Dashboard',
-      url: '#',
-      icon: Home,
-      isActive: true,
+      url: '/dashboard',
+      icon: LayoutDashboard,
     },
     {
       title: 'Create Task',
-      url: '',
-      icon: CalendarCheck,
+      url: '/create/task',
+      icon: Sparkles,
     },
     {
-      title: 'Pending',
+      title: 'Create Tag',
+      url: '/create/tag',
+      icon: Tag,
+    },
+    {
+      title: 'Create Group',
       url: '#',
-      icon: LoaderPinwheel,
-      badge: '10',
+      icon: Users,
     },
   ],
   navSecondary: [

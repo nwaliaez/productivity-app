@@ -1,22 +1,33 @@
-// models/User.ts
+// models/Task.ts
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
-interface IUser extends Document {
-  name: string;
-  email: string;
-  // Add more fields as needed
+export interface ITask extends Document {
+  _id: string;
+  title: string;
+  description?: string;
+  tag?: string;
+  assignedTo?: number; // Assuming the Postgres key is a number
+  status?: string;
+  priority?: string;
+  dueDate?: Date;
+  createdBy?: number; // ID from Postgres table
 }
 
-const UserSchema: Schema<IUser> = new Schema(
+const TaskSchema: Schema<ITask> = new Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    // Add more fields as needed
+    title: { type: String, required: true },
+    description: { type: String },
+    tag: { type: String },
+    assignedTo: { type: Number }, // Stores Postgres key (e.g., user ID)
+    status: { type: String, default: 'pending' },
+    priority: { type: String, default: 'medium' },
+    dueDate: { type: Date },
+    createdBy: { type: Number }, // ID from Postgres table
   },
   {
-    timestamps: true,
+    timestamps: true, // Automatically adds createdAt and updatedAt fields
   }
 );
 
-export default (mongoose.models.User as Model<IUser>) ||
-  mongoose.model<IUser>('User', UserSchema);
+export default (mongoose.models.Task as Model<ITask>) ||
+  mongoose.model<ITask>('Task', TaskSchema);
