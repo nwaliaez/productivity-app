@@ -17,9 +17,17 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./src",
+
     "paths": {
-      "@*": ["./src/*"]
-    }
+      "@*": ["./src/*"],
+      "@lib/server/*": ["lib/server/*"],
+      "@lib/client/*": ["lib/client/*"],
+      "@components/*": ["components/*"],
+      "@types/*": ["types/*"],
+      "@db": ["db/index.ts"]
+    },
+    "target": "ES2017"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]

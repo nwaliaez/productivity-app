@@ -20,9 +20,6 @@ const page = () => {
         throw new Error(errorData.message || 'Failed to create task');
       }
 
-      const data = await response.json();
-      console.log('Task created successfully:', data);
-
       // You can perform further actions here, such as refetching the task list or redirecting
     } catch (error) {
       console.error('Error creating task:', error);

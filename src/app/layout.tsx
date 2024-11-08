@@ -1,7 +1,7 @@
 import { poppins, roboto } from './fonts';
 import type { Metadata } from 'next';
 import './globals.css';
-import { ThemeProvider } from '@context/theme-provider';
+import { ThemeProvider } from 'components/theme-provider';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
@@ -15,12 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${roboto.className} ${poppins.className}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
-          enableSystem
+          enableSystem={true}
           disableTransitionOnChange
         >
           {children}

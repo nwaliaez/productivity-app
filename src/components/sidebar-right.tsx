@@ -1,9 +1,8 @@
-import * as React from "react"
-import { Plus } from "lucide-react"
-
-import { Calendars } from "@/components/calendars"
-import { DatePicker } from "@/components/date-picker"
-import { NavUser } from "@/components/nav-user"
+import * as React from 'react';
+import { Plus } from 'lucide-react';
+import { Calendars } from '@components/calendars';
+import { DatePicker } from '@components/date-picker';
+import { NavUser } from '@components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -14,34 +13,40 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
+} from '@components/ui/sidebar';
+import { auth } from '../../auth';
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+// Sample calendars data (you may want to fetch this dynamically as well)
+const calendarsData = [
+  {
+    name: 'My Calendars',
+    items: ['Personal', 'Work', 'Family'],
   },
-  calendars: [
-    {
-      name: "My Calendars",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "Favorites",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Other",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
-  ],
-}
+  {
+    name: 'Favorites',
+    items: ['Holidays', 'Birthdays'],
+  },
+  {
+    name: 'Other',
+    items: ['Travel', 'Reminders', 'Deadlines'],
+  },
+];
 
-export function SidebarRight({
+export async function SidebarRight({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
+  const session = await auth();
+  const user = {
+    name: 'Guest',
+    email: '',
+    avatar: '/avatars/default-avatar.jpg',
+  };
+  if (session?.user) {
+    user.name = String(session.user.name);
+    user.email = String(session.user.email);
+  }
+  // Extract user details from the session
+
   return (
     <Sidebar
       collapsible="none"
@@ -49,12 +54,12 @@ export function SidebarRight({
       {...props}
     >
       <SidebarHeader className="h-16 border-b border-sidebar-border">
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarHeader>
       <SidebarContent>
         <DatePicker />
         <SidebarSeparator className="mx-0" />
-        <Calendars calendars={data.calendars} />
+        <Calendars calendars={calendarsData} />
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
@@ -67,5 +72,5 @@ export function SidebarRight({
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

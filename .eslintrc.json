@@ -1,6 +1,15 @@
 {
+  "plugins": ["import", "node"],
+
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@/lib/server/*"],
+        "message": "Do not import server-side utilities into client-side code."
+      }
+    ],
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/consistent-type-imports": "off"
   }

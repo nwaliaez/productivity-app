@@ -6,9 +6,9 @@ import {
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger } from '@/components/ui/sidebar';
+} from '@components/ui/breadcrumb';
+import { Separator } from '@components/ui/separator';
+import { SidebarTrigger } from '@components/ui/sidebar';
 import React from 'react';
 
 // Define the types of breadcrumb items

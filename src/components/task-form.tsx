@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,38 +12,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
+import { Textarea } from '@components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
+} from '@components/ui/select';
+import { Calendar } from '@components/ui/calendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from '@components/ui/popover';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
-import { useState } from 'react'; // Import useState and useEffect
+import { Separator } from '@components/ui/separator';
+import { useEffect, useState } from 'react'; // Import useState and useEffect
 import { toast } from 'react-hot-toast'; // Import toast
+import { Option } from './ui/multi-select';
+import AssignedToSelector from './AssignedToSelector';
+
+const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional(),
+});
 
 // Define the Zod schema based on your Task model (without 'createdBy')
 const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required.' }),
   description: z.string().optional(),
   tag: z.string().optional(),
-  assignedTo: z
-    .number({ invalid_type_error: 'Please enter a valid number.' })
-    .positive({ message: 'Must be a positive number.' })
-    .int({ message: 'Must be an integer.' })
-    .optional(),
+  assignedTo: z.array(optionSchema),
   status: z
     .enum(['pending', 'in-progress', 'completed'])
     .optional()
@@ -57,8 +61,8 @@ export type TaskFormValues = z.infer<typeof formSchema>;
 interface TaskFormProps {
   mode: 'create' | 'edit'; // Mode: 'create' or 'edit'
   initialValues?: TaskFormValues; // Initial values for editing (optional)
-  taskId?: string; // Task ID for editing (optional)
-  onSubmit: (values: TaskFormValues, taskId?: string) => Promise<void>; // Submit handler
+  taskId?: number; // Task ID for editing (optional)
+  onSubmit: (values: TaskFormValues, taskId?: number) => Promise<void>; // Submit handler
 }
 
 export default function TaskForm({
@@ -75,7 +79,7 @@ export default function TaskForm({
       title: '',
       description: '',
       tag: '',
-      assignedTo: undefined,
+      assignedTo: [],
       status: 'pending',
       priority: 'medium',
       dueDate: undefined,
@@ -105,7 +109,38 @@ export default function TaskForm({
     }
   }
 
+  const [teams, setTeams] = useState<Option[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchUsernames() {
+      const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+      try {
+        const response = await fetch(`${API_BASE_URL}/teams`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch usernames');
+        }
+        const data = await response.json();
+
+        const formattedOptions = data.users.map(
+          (user: { userId: string; username: string }) => ({
+            label: user.username,
+            value: String(user.userId),
+          })
+        );
+
+        setTeams(formattedOptions);
+      } catch (error) {
+        console.error('Error fetching username options:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchUsernames();
+  }, []);
+
   const backgroundClass = mode === 'create' && 'bg-muted/50';
+  if (isLoading) return null;
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
@@ -289,24 +324,7 @@ export default function TaskForm({
                   control={form.control}
                   name="assignedTo"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Assigned To</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="User ID"
-                          {...field}
-                          onChange={(e) =>
-                            field.onChange(parseInt(e.target.value, 10))
-                          }
-                          disabled={loading} // Disable input during loading
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Enter the ID of the user to assign this task to.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
+                    <AssignedToSelector field={field} teams={teams} />
                   )}
                 />
               </div>

@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@components/ui/button';
 import {
   Form,
   FormControl,
@@ -12,10 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from '@components/ui/form';
+import { Input } from '@components/ui/input';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card';
 
 // Define form schema using zod
 const formSchema = z.object({
@@ -39,7 +39,9 @@ const Auth = () => {
 
   // Handle form submission
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await fetch('http://localhost:3000/api/signup', {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+    const response = await fetch(`${API_BASE_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

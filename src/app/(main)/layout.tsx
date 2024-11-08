@@ -1,17 +1,18 @@
-import { SidebarLeft } from '@/components/sidebar-left';
-import { SidebarRight } from '@/components/sidebar-right';
+import { SidebarLeft } from '@components/sidebar-left';
+import { SidebarRight } from '@components/sidebar-right';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-} from '@/components/ui/breadcrumb';
-import { Separator } from '@/components/ui/separator';
+} from '@components/ui/breadcrumb';
+import { Separator } from '@components/ui/separator';
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from '@/components/ui/sidebar';
+} from '@components/ui/sidebar';
+import NotificationIcon from '@components/notification-icon';
 
 export default function MainLayout({
   children,
@@ -35,6 +36,9 @@ export default function MainLayout({
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+            <div className="ml-auto mr-5">
+              <NotificationIcon />
+            </div>
           </div>
         </header>
         {children}

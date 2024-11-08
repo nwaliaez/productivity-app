@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "profile_pic" varchar(255) DEFAULT 'path/to/default/profile_pic.jpg';
